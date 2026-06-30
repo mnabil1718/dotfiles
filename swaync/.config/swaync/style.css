@@ -1,0 +1,304 @@
+@import "/home/nabil/.config/waybar/tokens/colors.css";
+
+:root {
+  --border-radius: 14px;
+  --noti-bg-alpha: 0.75;
+  --hover-transition: background 0.15s ease-in-out;
+  --group-collapse-transition: opacity 400ms ease-in-out;
+  --notification-icon-size: 64px;
+  --notification-app-icon-size: calc(var(--notification-icon-size) / 3);
+  --notification-group-icon-size: 32px;
+  --font-size-body: 14px;
+  --font-size-summary: 15px;
+  --notification-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+notificationwindow, blankwindow {
+  background: transparent;
+}
+
+.floating-notifications {
+  background: transparent;
+}
+
+.floating-notifications .notification {
+  background: alpha(@surface_container, 0.75);
+  border-radius: var(--border-radius);
+  border: 1px solid alpha(@outline_variant, 0.4);
+  box-shadow: var(--notification-shadow);
+  /* GTK4 blur — works on most Hyprland setups */
+  -gtk-icon-filter: none;
+}
+
+.notification-row {
+  background: none;
+  outline: none;
+}
+
+.notification-row:focus {
+  background: alpha(@surface_container_high, 0.5);
+}
+
+.notification-row .notification-background {
+  padding: 8px 14px;
+}
+
+.notification-row .notification-background .notification {
+  border-radius: var(--border-radius);
+  border: 1px solid alpha(@outline_variant, 0.4);
+  padding: 0;
+  transition: var(--hover-transition);
+  background: alpha(@surface_container, 0.75);
+  box-shadow: var(--notification-shadow);
+}
+
+.notification-row .notification-background .notification.critical {
+  border-color: alpha(@error, 0.6);
+}
+
+.notification-row .notification-background .notification .notification-default-action {
+  padding: 10px 12px;
+  margin: 0;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+  color: @on_surface;
+  transition: var(--hover-transition);
+  border-radius: var(--border-radius);
+}
+
+.notification-row .notification-background .notification .notification-default-action:hover {
+  background: alpha(@surface_container_high, 0.6);
+}
+
+.notification-row .notification-background .notification .notification-default-action:not(:only-child) {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content {
+  background: transparent;
+  padding: 4px 6px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .image {
+  -gtk-icon-filter: none;
+  -gtk-icon-size: var(--notification-icon-size);
+  border-radius: 100px;
+  margin: 6px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
+  -gtk-icon-filter: none;
+  -gtk-icon-size: var(--notification-app-icon-size);
+  -gtk-icon-shadow: 0 1px 4px black;
+  margin: 6px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box label {
+  filter: none;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .summary {
+  font-size: var(--font-size-summary);
+  font-weight: bold;
+  color: @on_surface;
+  text-shadow: none;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
+  font-size: var(--font-size-body);
+  font-weight: normal;
+  color: @on_surface_variant;
+  text-shadow: none;
+  margin-right: 30px;
+}
+
+.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
+  font-size: var(--font-size-body);
+  font-weight: normal;
+  color: @on_surface_variant;
+  text-shadow: none;
+}
+
+.notification-row .notification-background .notification .notification-alt-actions {
+  background: none;
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  padding: 6px;
+}
+
+.notification-row .notification-background .notification .notification-action {
+  margin: 4px;
+  padding: 0;
+}
+
+.notification-row .notification-background .notification .notification-action > button {
+  border-radius: var(--border-radius);
+  color: @on_surface;
+  background: alpha(@primary_container, 0.5);
+  border: 1px solid alpha(@outline_variant, 0.3);
+}
+
+.notification-row .notification-background .notification .notification-action > button:hover {
+  background: alpha(@primary_container, 0.8);
+}
+
+/* ── Close button ────────────────────────────────────────────── */
+.close-button {
+  background: alpha(@surface_container_high, 0.6);
+  color: @on_surface;
+  text-shadow: none;
+  padding: 0;
+  border-radius: 100%;
+  margin-top: 8px;
+  margin-right: 8px;
+  box-shadow: none;
+  border: none;
+  min-width: 24px;
+  min-height: 24px;
+}
+
+.close-button:hover {
+  background: alpha(@error_container, 0.8);
+  color: @on_error_container;
+  transition: var(--hover-transition);
+  border: none;
+}
+
+/* ── Notification groups ─────────────────────────────────────── */
+.notification-group {
+  transition: opacity 200ms ease-in-out;
+}
+
+.notification-group:focus {
+  background: alpha(@surface_container_high, 0.4);
+}
+
+.notification-group .notification-group-close-button .close-button {
+  margin: 12px 20px;
+}
+
+.notification-group .notification-group-buttons,
+.notification-group .notification-group-headers {
+  margin: 0 16px;
+  color: @on_surface;
+}
+
+.notification-group .notification-group-headers .notification-group-icon {
+  color: @primary;
+  -gtk-icon-size: var(--notification-group-icon-size);
+}
+
+.notification-group.collapsed.not-expanded {
+  opacity: 0.4;
+}
+
+.notification-group.collapsed .notification-row .notification {
+  background: alpha(@surface_container, 0.85);
+}
+
+.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
+  background: alpha(@surface_container_high, 0.7);
+}
+
+/* ── Control center ──────────────────────────────────────────── */
+.control-center {
+  background: alpha(@surface_container_low, 0.82);
+  color: @on_surface;
+  border-radius: var(--border-radius);
+  border: 1px solid alpha(@outline_variant, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.control-center .control-center-list-placeholder {
+  opacity: 0.5;
+}
+
+.control-center .control-center-list {
+  background: transparent;
+}
+
+.control-center .control-center-list .notification {
+  box-shadow: var(--notification-shadow);
+}
+
+.control-center .control-center-list .notification .notification-default-action:hover,
+.control-center .control-center-list .notification .notification-action:hover {
+  background: alpha(@surface_container_high, 0.6);
+}
+
+.blank-window {
+  background: transparent;
+}
+
+/* ── Widgets ─────────────────────────────────────────────────── */
+.widget {
+  margin: 10px;
+  padding: 10px;
+  border-radius: var(--border-radius);
+}
+
+.widget-title > label {
+  margin-right: 8px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: @on_surface;
+}
+
+.widget-title > button {
+  margin-left: 8px;
+  border-radius: var(--border-radius);
+  background: alpha(@primary_container, 0.5);
+  color: @on_primary_container;
+  border: 1px solid alpha(@outline_variant, 0.3);
+}
+
+.widget-title > button:hover {
+  background: @primary_container;
+}
+
+.widget-dnd label {
+  color: @on_surface;
+  margin-right: 8px;
+  font-size: 1.1rem;
+}
+
+.widget-dnd switch {
+  border-radius: var(--border-radius);
+  margin-left: 8px;
+}
+
+.widget-dnd switch:checked {
+  background: @primary;
+}
+
+/* ── Mpris ───────────────────────────────────────────────────── */
+:root {
+  --mpris-album-art-overlay: rgba(0, 0, 0, 0.55);
+  --mpris-button-hover: rgba(0, 0, 0, 0.4);
+  --mpris-album-art-icon-size: 96px;
+  --mpris-album-art-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+}
+
+.widget-mpris .widget-mpris-player {
+  margin: 16px 20px;
+  border-radius: var(--border-radius);
+  box-shadow: var(--mpris-album-art-shadow);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay {
+  padding: 16px;
+  background-color: var(--mpris-album-art-overlay);
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: @on_surface;
+}
+
+.widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
+  font-size: 1.1rem;
+  color: @on_surface_variant;
+}

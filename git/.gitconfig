@@ -1,0 +1,9 @@
+[gpg]
+	program = gpg2
+	format = ssh
+[user]
+	signingkey = /home/nabil/.ssh/id_ed25519.pub
+	email = mnabil1718@gmail.com
+	name = Muhammad Nabil
+[commit]
+	gpgsign = true

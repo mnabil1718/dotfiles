@@ -1,0 +1,13 @@
+appimagelauncher
+aspnet-runtime-bin
+catppuccin-gtk-theme-mocha
+claude-desktop-native-debug
+cloudflare-warp-bin
+dotnet-runtime-bin
+dotnet-sdk-bin
+envycontrol
+google-chrome
+netcoredbg
+postman-bin
+swayosd-git
+yay
