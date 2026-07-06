@@ -1,19 +1,23 @@
 @import "/home/nabil/.config/waybar/tokens/colors.css";
 
 :root {
-  --border-radius: 14px;
-  --noti-bg-alpha: 0.75;
+  --border-radius: 16px;
+  --border-radius-sm: 10px;
+  --noti-bg-alpha: 0.55;
   --hover-transition: background 0.15s ease-in-out;
   --group-collapse-transition: opacity 400ms ease-in-out;
-  --notification-icon-size: 64px;
+  --notification-icon-size: 56px;
   --notification-app-icon-size: calc(var(--notification-icon-size) / 3);
-  --notification-group-icon-size: 32px;
-  --font-size-body: 14px;
-  --font-size-summary: 15px;
-  --notification-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --notification-group-icon-size: 28px;
+  --font-size-body: 13px;
+  --font-size-summary: 14px;
+  --glass-border: alpha(@outline_variant, 0.15);
+  --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 
-notificationwindow, blankwindow {
+notificationwindow,
+blankwindow,
+.blank-window {
   background: transparent;
 }
 
@@ -21,13 +25,12 @@ notificationwindow, blankwindow {
   background: transparent;
 }
 
+/* ── Floating notification popups ───────────────────────────── */
 .floating-notifications .notification {
-  background: alpha(@surface_container, 0.75);
+  background: alpha(@surface_container, var(--noti-bg-alpha));
   border-radius: var(--border-radius);
-  border: 1px solid alpha(@outline_variant, 0.4);
-  box-shadow: var(--notification-shadow);
-  /* GTK4 blur — works on most Hyprland setups */
-  -gtk-icon-filter: none;
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 
 .notification-row {
@@ -36,28 +39,31 @@ notificationwindow, blankwindow {
 }
 
 .notification-row:focus {
-  background: alpha(@surface_container_high, 0.5);
+  background: alpha(@surface_container_high, 0.25);
 }
 
 .notification-row .notification-background {
-  padding: 8px 14px;
+  padding: 6px 10px;
 }
 
 .notification-row .notification-background .notification {
   border-radius: var(--border-radius);
-  border: 1px solid alpha(@outline_variant, 0.4);
+  border: 1px solid var(--glass-border);
   padding: 0;
   transition: var(--hover-transition);
-  background: alpha(@surface_container, 0.75);
-  box-shadow: var(--notification-shadow);
+  background: alpha(@surface_container, var(--noti-bg-alpha));
+  box-shadow: var(--glass-shadow);
 }
 
 .notification-row .notification-background .notification.critical {
-  border-color: alpha(@error, 0.6);
+  border-color: alpha(@error, 0.5);
 }
 
-.notification-row .notification-background .notification .notification-default-action {
-  padding: 10px 12px;
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action {
+  padding: 12px 14px;
   margin: 0;
   box-shadow: none;
   background: transparent;
@@ -67,86 +73,140 @@ notificationwindow, blankwindow {
   border-radius: var(--border-radius);
 }
 
-.notification-row .notification-background .notification .notification-default-action:hover {
-  background: alpha(@surface_container_high, 0.6);
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action:hover {
+  background: alpha(@on_surface, 0.05);
 }
 
-.notification-row .notification-background .notification .notification-default-action:not(:only-child) {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action:not(:only-child) {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content {
   background: transparent;
-  padding: 4px 6px;
+  padding: 2px 4px;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content .image {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .image {
   -gtk-icon-filter: none;
   -gtk-icon-size: var(--notification-icon-size);
   border-radius: 100px;
-  margin: 6px;
+  margin: 4px;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content .app-icon {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .app-icon {
   -gtk-icon-filter: none;
   -gtk-icon-size: var(--notification-app-icon-size);
-  -gtk-icon-shadow: 0 1px 4px black;
-  margin: 6px;
+  margin: 4px;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content .text-box label {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .text-box
+  label {
   filter: none;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .summary {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .text-box
+  .summary {
   font-size: var(--font-size-summary);
-  font-weight: bold;
+  font-weight: 600;
   color: @on_surface;
   text-shadow: none;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .time {
-  font-size: var(--font-size-body);
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .text-box
+  .time {
+  font-size: 11px;
   font-weight: normal;
-  color: @on_surface_variant;
+  color: alpha(@on_surface_variant, 0.7);
   text-shadow: none;
-  margin-right: 30px;
+  margin-right: 24px;
 }
 
-.notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
+.notification-row
+  .notification-background
+  .notification
+  .notification-default-action
+  .notification-content
+  .text-box
+  .body {
   font-size: var(--font-size-body);
   font-weight: normal;
-  color: @on_surface_variant;
+  color: alpha(@on_surface_variant, 0.85);
   text-shadow: none;
 }
 
-.notification-row .notification-background .notification .notification-alt-actions {
+.notification-row
+  .notification-background
+  .notification
+  .notification-alt-actions {
   background: none;
   border-bottom-left-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
-  padding: 6px;
+  padding: 4px 8px 8px;
 }
 
 .notification-row .notification-background .notification .notification-action {
-  margin: 4px;
+  margin: 3px;
   padding: 0;
 }
 
-.notification-row .notification-background .notification .notification-action > button {
-  border-radius: var(--border-radius);
+.notification-row
+  .notification-background
+  .notification
+  .notification-action
+  > button {
+  border-radius: var(--border-radius-sm);
   color: @on_surface;
-  background: alpha(@primary_container, 0.5);
-  border: 1px solid alpha(@outline_variant, 0.3);
+  background: alpha(@on_surface, 0.06);
+  border: 1px solid var(--glass-border);
 }
 
-.notification-row .notification-background .notification .notification-action > button:hover {
-  background: alpha(@primary_container, 0.8);
+.notification-row
+  .notification-background
+  .notification
+  .notification-action
+  > button:hover {
+  background: alpha(@on_surface, 0.12);
 }
 
 /* ── Close button ────────────────────────────────────────────── */
 .close-button {
-  background: alpha(@surface_container_high, 0.6);
+  background: alpha(@on_surface, 0.08);
   color: @on_surface;
   text-shadow: none;
   padding: 0;
@@ -155,12 +215,12 @@ notificationwindow, blankwindow {
   margin-right: 8px;
   box-shadow: none;
   border: none;
-  min-width: 24px;
-  min-height: 24px;
+  min-width: 22px;
+  min-height: 22px;
 }
 
 .close-button:hover {
-  background: alpha(@error_container, 0.8);
+  background: alpha(@error, 0.5);
   color: @on_error_container;
   transition: var(--hover-transition);
   border: none;
@@ -172,7 +232,7 @@ notificationwindow, blankwindow {
 }
 
 .notification-group:focus {
-  background: alpha(@surface_container_high, 0.4);
+  background: alpha(@on_surface, 0.04);
 }
 
 .notification-group .notification-group-close-button .close-button {
@@ -181,8 +241,8 @@ notificationwindow, blankwindow {
 
 .notification-group .notification-group-buttons,
 .notification-group .notification-group-headers {
-  margin: 0 16px;
-  color: @on_surface;
+  margin: 0 14px;
+  color: alpha(@on_surface, 0.85);
 }
 
 .notification-group .notification-group-headers .notification-group-icon {
@@ -191,82 +251,99 @@ notificationwindow, blankwindow {
 }
 
 .notification-group.collapsed.not-expanded {
-  opacity: 0.4;
+  opacity: 0.5;
 }
 
 .notification-group.collapsed .notification-row .notification {
-  background: alpha(@surface_container, 0.85);
+  background: alpha(@surface_container, 0.6);
 }
 
-.notification-group.collapsed:hover .notification-row:not(:only-child) .notification {
-  background: alpha(@surface_container_high, 0.7);
+.notification-group.collapsed:hover
+  .notification-row:not(:only-child)
+  .notification {
+  background: alpha(@surface_container_high, 0.45);
 }
 
-/* ── Control center ──────────────────────────────────────────── */
+/* ── Control center — unify background so padding blends in ──── */
 .control-center {
-  background: alpha(@surface_container_low, 0.82);
+  background: alpha(@surface_container_low, 0.55);
   color: @on_surface;
   border-radius: var(--border-radius);
-  border: 1px solid alpha(@outline_variant, 0.35);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.28);
+  padding: 12px;
 }
 
 .control-center .control-center-list-placeholder {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .control-center .control-center-list {
   background: transparent;
+  padding: 0;
 }
 
+/* notification cards inside control center now sit directly
+   on the same glass surface, no nested box look */
 .control-center .control-center-list .notification {
-  box-shadow: var(--notification-shadow);
-}
-
-.control-center .control-center-list .notification .notification-default-action:hover,
-.control-center .control-center-list .notification .notification-action:hover {
-  background: alpha(@surface_container_high, 0.6);
-}
-
-.blank-window {
   background: transparent;
+  box-shadow: none;
+  border: none;
+}
+
+.control-center
+  .control-center-list
+  .notification
+  .notification-default-action:hover,
+.control-center .control-center-list .notification .notification-action:hover {
+  background: alpha(@on_surface, 0.05);
+}
+
+/* subtle separator instead of a boxed card per notification */
+.control-center .control-center-list .notification-row {
+  border-bottom: 1px solid alpha(@on_surface, 0.05);
+}
+
+.control-center .control-center-list .notification-row:last-child {
+  border-bottom: none;
 }
 
 /* ── Widgets ─────────────────────────────────────────────────── */
 .widget {
-  margin: 10px;
+  margin: 8px;
   padding: 10px;
-  border-radius: var(--border-radius);
+  border-radius: var(--border-radius-sm);
 }
 
 .widget-title > label {
   margin-right: 8px;
-  font-size: 1.4rem;
-  font-weight: bold;
+  font-size: 1.3rem;
+  font-weight: 600;
   color: @on_surface;
 }
 
 .widget-title > button {
   margin-left: 8px;
-  border-radius: var(--border-radius);
-  background: alpha(@primary_container, 0.5);
-  color: @on_primary_container;
-  border: 1px solid alpha(@outline_variant, 0.3);
+  border-radius: var(--border-radius-sm);
+  background: alpha(@on_surface, 0.06);
+  color: @on_surface;
+  border: 1px solid var(--glass-border);
 }
 
 .widget-title > button:hover {
-  background: @primary_container;
+  background: alpha(@on_surface, 0.1);
 }
 
 .widget-dnd label {
   color: @on_surface;
   margin-right: 8px;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
 }
 
 .widget-dnd switch {
-  border-radius: var(--border-radius);
+  border-radius: 100px;
   margin-left: 8px;
+  background: alpha(@on_surface, 0.1);
 }
 
 .widget-dnd switch:checked {
@@ -275,30 +352,29 @@ notificationwindow, blankwindow {
 
 /* ── Mpris ───────────────────────────────────────────────────── */
 :root {
-  --mpris-album-art-overlay: rgba(0, 0, 0, 0.55);
-  --mpris-button-hover: rgba(0, 0, 0, 0.4);
-  --mpris-album-art-icon-size: 96px;
-  --mpris-album-art-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
+  --mpris-album-art-overlay: rgba(0, 0, 0, 0.4);
+  --mpris-button-hover: rgba(255, 255, 255, 0.15);
+  --mpris-album-art-icon-size: 88px;
 }
 
 .widget-mpris .widget-mpris-player {
-  margin: 16px 20px;
-  border-radius: var(--border-radius);
-  box-shadow: var(--mpris-album-art-shadow);
+  margin: 12px 16px;
+  border-radius: var(--border-radius-sm);
+  overflow: hidden;
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay {
-  padding: 16px;
+  padding: 14px;
   background-color: var(--mpris-album-art-overlay);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-title {
-  font-weight: bold;
-  font-size: 1.25rem;
-  color: @on_surface;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #fff;
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay .widget-mpris-subtitle {
-  font-size: 1.1rem;
-  color: @on_surface_variant;
+  font-size: 1rem;
+  color: alpha(#fff, 0.75);
 }
