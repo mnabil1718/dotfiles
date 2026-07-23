@@ -156,3 +156,5 @@ alias path='echo -e ${PATH//:/\\n}'
 # ── Starship ───────────────────────────────────────────────────
 export STARSHIP_LOG=error
 eval "$(starship init zsh)"
+export PATH="/home/nabil/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="/home/nabil/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
